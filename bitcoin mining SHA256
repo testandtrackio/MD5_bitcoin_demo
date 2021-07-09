@@ -1,3 +1,11 @@
+#A great little activity to focus on lots of Advanced level computing theory/programming
+#a)Functions and how they return values
+#b)Passing parameters
+#c)Generating hash values
+#d)String Manipulation
+#e) Understanding why we need iteration - use of for loops
+#f) A gentle introduction to time complexity
+
 from hashlib import sha256 #this is importing the library with functions to work with
 MAX_NONCE = 10000000 #this can be changed based on your computational power! 
 
