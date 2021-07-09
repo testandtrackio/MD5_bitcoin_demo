@@ -1,0 +1,54 @@
+from hashlib import sha256 #this is importing the library with functions to work with
+MAX_NONCE = 10000000 #this can be changed based on your computational power! 
+
+#This is a function called SHA256 which takes some text and returns a hash Value
+#The hash value is given in HEX (64 hex digits) 4 bits for every hex character = 256 
+def SHA256(text):
+    return sha256(text.encode("ascii")).hexdigest() #this returns a hash value
+
+#This is a function called "mine" which takes parameters block_number, transactions etc
+def mine(block_number, transactions, previous_hash, prefix_zeros):
+    prefix_str = '0'*prefix_zeros #create a string that is 0 repeated by prefix_zeroes value e.g. 4 (which is the difficulty parameter being passed in this case - look at where the function "mine" is being called - further down)
+
+    for nonce in range(MAX_NONCE): #for loop from 0 to MAX_NONCE value
+        text = str(block_number) + transactions + previous_hash + str(nonce) #create a text block which is essentially everything associated with the transaction.
+
+        #Note in each iteration the nonce is being added so the hash value will change in each iteration
+
+        new_hash = SHA256(text) #new hash value for the text
+        print(new_hash) #printing the new hash - you could remove this line 
+        #here we are just checking to see if the hash value starts with 0000 or whatever the prefix is (remember this is related to the difficulty level)
+        if new_hash.startswith(prefix_str):
+            print(f"Successfully mined bitcoins with nonce value:{nonce}")
+            return new_hash #if the "mine" is successfull - stop and return the hash 
+        
+
+    raise BaseException(f"Couldn't find correct has after trying {MAX_NONCE} times")
+
+
+""" We can use an if __name__ == "__main__" block to allow or prevent parts of code from being run when the modules are imported. We can do without it and just call the relevant functions, but this is a useful trick to be aware of """
+
+
+if __name__=='__main__':
+    #here are the actual transactions, whatever they migh tbe
+    transactions='''
+    Mrs Marvin -> Mr Hastings ->20,
+    Mr Hastings -> Mrs Benjamin ->45
+    '''
+    difficulty=4 # this is essentially the number of zeroes and reflects the difficulty level - change it to a higher number and note that the time taken increases!
+    import time 
+    start = time.time() #recording the start and stop time here
+    print("Start mining ...")
+    print()
+    print()
+    #STARTING POINT
+    #Here we create a variable called new_hash and store inside it the result of the function "mine" that we call, with the given parameters passed into it.
+    new_hash = mine(5,transactions,'0000000xa036944e29568d0cff17edbe038f81208fecf9a66be9a2b8321c6ec7', difficulty)
+    total_time = str((time.time() - start))
+    
+    print()
+    print()
+    print(f"End mining")
+    print()
+    print("Mining took:", {total_time},"seconds")
+    print("New hash:",(new_hash))
