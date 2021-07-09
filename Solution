@@ -1,0 +1,18 @@
+import hashlib #importing hash library
+
+#This function takes a string that the user inputs and returns a hash value
+def hasho(mystring):
+    hash_object=hashlib.md5(mystring.encode())
+    return hash_object.hexdigest()
+
+mystring=input("Enter your transaction details (to hash:")
+
+#Using while True results in an infinite loop.
+while True:
+    #declare a variable called hashval and call the function above
+    hashval = hasho(mystring)
+    print(hashval) #print the returned hash value.
+    if hashval.startswith("00"): #if the hash value starts with 00
+        break #break out of the while loop
+    mystring=mystring+"!" #for each iteration (loop) keep adding ! each time
+    #Adding the ! will give a different hash value for each iteration.
